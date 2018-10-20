@@ -6,23 +6,11 @@ import urllib , re
 import GetTweetsObject
 
 def main():
-    # """
+    # ツイート取得
     get_tweets = GetTweetsObject.GetTweetsObject("tweets/OAuth.json")
     get_tweets.get_tweets("CountryError404",exclude_replies=False,avoid_api_regulation=True)
-    # """
-    
-    #デバッグ用処理
-    # import dill
-    """
-    with open("tweets/tweets_ex.pickle","wb") as f:
-        dill.dump(get_tweets,f)
-    # """
-    """
-    with open("tweets/tweets_ex.pickle","rb") as f:
-        get_tweets = dill.load(f)
-    # """
 
-    #MAKEBOTのツイートリストを読む
+    # MAKEBOTのツイートリストを読む
     with Path("tweets/id_list.txt").open("r") as f:
         regs = f.readlines()
     ids = []
@@ -32,7 +20,7 @@ def main():
     countries = []
     
     for tweet in get_tweets.tweets:
-        #ツイートが登録されていているか。
+        # ツイートが登録されていているか。
         if tweet.id in ids:
             if len([c for c in countries if c.main_id == tweet.id]) == 0:
                 country = Country(tweet.id,get_display_text(tweet))
@@ -45,7 +33,7 @@ def main():
                     j = j + 1
                 countries.append(country)
         
-        #ツイートが登録されたもののリプライか。
+        # ツイートが登録されたもののリプライか。
         if tweet.in_reply_to_status_id in ids:
             if len([c for c in countries if c.main_id == tweet.in_reply_to_status_id]) == 0:
                 parent = [ t for t in get_tweets.tweets if t.id == tweet.in_reply_to_status_id][0]
