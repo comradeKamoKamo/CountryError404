@@ -3,11 +3,12 @@ import tweepy
 import os
 from datetime import datetime
 from pathlib import Path
+import pickle
 
 def main():
 
     #時刻制御
-    if datetime.now().hour() > 22 or datetime.now().hour() < 7:
+    if datetime.now().hour > 22 or datetime.now().hour < 7:
         exit()
 
     #OAuth
@@ -21,6 +22,7 @@ def main():
 
     #Call Tasks
     tweet_articles(api,"tweets/id_list.txt")
+    follow_and_remove(api)
 
 def tweet_articles(api,list_path):
     # リストから順番にツイートする
@@ -38,7 +40,63 @@ def tweet_articles(api,list_path):
     # Tweet    
     api.update_status(text)
     return
+
+def follow_and_remove(api):
+    #24時間で1000回まで。1時間100回。
+    users = []
+    protected_users = []
+    followers_id = []
+    for follower_id in tweepy.Cursor(api.followers_ids).items():
+        followers_id.append(follower_id)
+    friends_id = []
+    for friend_id in tweepy.Cursor(api.friends_ids).items():
+        friends_id.append(friend_id)
+
+    if len(followers_id) > 0:    
+        if Path("engine/protected_users.pickle").exists():
+            with Path("engine/protected_users.pickle").open("rb") as f:
+                protected_users = pickle.load(f)
+        #LOOKUPで100ごと取得
+        for i in range(0, len(friends_id), 100):
+            for follower in api.lookup_users(user_ids=followers_id[i:i+100]):
+                followers_id.append(follower.id)
+                if not follower.following:
+                    if follower.protected:
+                        #鍵垢の場合は1回だけフォローリクエストを送る。
+                        if not follower.id in protected_users:
+                            if not follower.follow_request_sent:
+                                users.append(follower)
+                                protected_users.append(follower.id)     
+                    else:
+                        users.append(follower)
+        for i in range(100):
+            if len(users) <= i:
+                break
+            users.pop().follow()
+
+        #鍵垢リストの確認
+        for user_id in protected_users:
+            #フォロー外されている
+            if not user_id in followers_id:
+                protected_users.remove(user_id)
+            #フォローしている
+            if api.get_user(user_id).following:
+                protected_users.remove(user_id)
+        #鍵垢リスト保存
+        with Path("engine/protected_users.pickle").open("wb") as f:
+            pickle.dump(protected_users,f)
+
+    #リムーブ
+    removers_id = []
+    for friend_id in friends_id:
+        if not friend_id in followers_id:
+            removers_id.append(friend_id)
+    for i in range(100):
+        if len(removers_id) <= i:
+            break
+        api.destroy_friendship(removers_id.pop())
     
+
 
 if __name__=="__main__":
     main()
