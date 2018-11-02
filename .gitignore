@@ -4,6 +4,9 @@ OAuth.json
 #for debug
 OAuth.bat
 
+# count
+count.dat
+
 # dill
 *.pickle
 
