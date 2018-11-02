@@ -1,6 +1,9 @@
 # Twitter API Keys
 OAuth.json
 
+#for debug
+OAuth.bat
+
 # dill
 *.pickle
 
