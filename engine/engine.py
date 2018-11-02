@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import tweepy
 import os
 from datetime import datetime

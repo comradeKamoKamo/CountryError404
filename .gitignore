@@ -1,5 +1,6 @@
 # Twitter API Keys
 OAuth.json
+heroku_OAuth.bat
 
 #for debug
 OAuth.bat
