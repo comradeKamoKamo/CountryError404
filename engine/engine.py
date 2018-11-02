@@ -5,6 +5,11 @@ from datetime import datetime
 from pathlib import Path
 
 def main():
+
+    #時刻制御
+    if datetime.now().hour() > 22 or datetime.now().hour() < 7:
+        exit()
+
     #OAuth
     api_key = os.environ.get("API_KEY")
     api_secret = os.environ.get("API_SECRET")
