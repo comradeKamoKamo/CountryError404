@@ -15,7 +15,6 @@ def main():
     #S3 Load
     Path("tmp").mkdir(exist_ok=True)
     s3 , bucket =  save_from_s3(s3_name="countryerror404")
-    
 
     #OAuth
     api_key = os.environ.get("API_KEY")
@@ -29,7 +28,7 @@ def main():
     #Call Tasks
     tweet_articles(api,"tweets/id_list.txt")
     follow_and_remove(api)
-
+    
     #S3 Save
     save_to_s3(s3,bucket)
 
@@ -88,9 +87,8 @@ def follow_and_remove(api):
             with Path("tmp/protected_users.pickle").open("rb") as f:
                 protected_users = pickle.load(f)
         #LOOKUPで100ごと取得
-        for i in range(0, len(friends_id), 100):
+        for i in range(0, len(followers_id), 100):
             for follower in api.lookup_users(user_ids=followers_id[i:i+100]):
-                followers_id.append(follower.id)
                 if not follower.following:
                     if follower.protected:
                         #鍵垢の場合は1回だけフォローリクエストを送る。
