@@ -4,12 +4,18 @@ import os
 from datetime import datetime
 from pathlib import Path
 import pickle
+import boto3
 
 def main():
 
     #時刻制御
     if datetime.now().hour > 22 or datetime.now().hour < 7:
         exit()
+
+    #S3 Load
+    Path("tmp").mkdir(exist_ok=True)
+    s3 , bucket =  save_from_s3(s3_name="countryerror404")
+    
 
     #OAuth
     api_key = os.environ.get("API_KEY")
@@ -24,18 +30,38 @@ def main():
     tweet_articles(api,"tweets/id_list.txt")
     follow_and_remove(api)
 
+    #S3 Save
+    save_to_s3(s3,bucket)
+
+def save_to_s3(s3,bucket):
+    bucket.upload_file('tmp/count.dat', 'count.dat')
+    if Path("tmp/protected_users.pickle").exists():
+        bucket.upload_file('tmp/protected_users.pickle', 'protected_users.pickle')
+    return
+
+def save_from_s3(s3_name):
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(s3_name)
+    try:
+        bucket.download_file("count.dat", "tmp/count.dat")
+        bucket.download_file("protected_users.pickle", "tmp/protected_users.pickle")
+    except:
+        print("Download from S3 failed.")
+    return s3 , bucket
+        
+
 def tweet_articles(api,list_path):
     # リストから順番にツイートする
     with Path(list_path).open("r",encoding="utf-8") as f:
         count = 0
-        if Path("engine/count.dat").exists():
-          with Path("engine/count.dat").open("r",encoding="utf-8") as c:
+        if Path("tmp/count.dat").exists():
+          with Path("tmp/count.dat").open("r",encoding="utf-8") as c:
                 count = int(c.readline())
         lines = f.readlines()
         if len(lines) <= count:
             count = 0
         text = lines[count][0:-1]
-    with Path("engine/count.dat").open("w",encoding="utf-8") as c:
+    with Path("tmp/count.dat").open("w",encoding="utf-8") as c:
                 c.write("{0}".format(count+1))
     # Tweet    
     api.update_status(text)
@@ -53,8 +79,8 @@ def follow_and_remove(api):
         friends_id.append(friend_id)
 
     if len(followers_id) > 0:    
-        if Path("engine/protected_users.pickle").exists():
-            with Path("engine/protected_users.pickle").open("rb") as f:
+        if Path("tmp/protected_users.pickle").exists():
+            with Path("tmp/protected_users.pickle").open("rb") as f:
                 protected_users = pickle.load(f)
         #LOOKUPで100ごと取得
         for i in range(0, len(friends_id), 100):
@@ -83,7 +109,7 @@ def follow_and_remove(api):
             if api.get_user(user_id).following:
                 protected_users.remove(user_id)
         #鍵垢リスト保存
-        with Path("engine/protected_users.pickle").open("wb") as f:
+        with Path("tmp/protected_users.pickle").open("wb") as f:
             pickle.dump(protected_users,f)
 
     #リムーブ
