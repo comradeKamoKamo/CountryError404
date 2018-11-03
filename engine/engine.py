@@ -61,10 +61,15 @@ def tweet_articles(api,list_path):
         if len(lines) <= count:
             count = 0
         text = lines[count][0:-1]
+    # Tweet    
+    try:
+        api.update_status(text)
+    except tweepy.TweepError as e:
+        if e.api_code==187:
+            #ツイートの重複
+            count = count + 1
     with Path("tmp/count.dat").open("w",encoding="utf-8") as c:
                 c.write("{0}".format(count+1))
-    # Tweet    
-    api.update_status(text)
     return
 
 def follow_and_remove(api):
