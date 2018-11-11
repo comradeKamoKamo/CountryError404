@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 import pickle
-#import boto3
+import boto3
 
 def main():
 
@@ -28,6 +28,7 @@ def main():
     #Call Tasks
     tweet_articles(api,"tweets/id_list.txt")
     follow_and_remove(api)
+    tweet_news(api)
     
     #S3 Save
     save_to_s3(s3,bucket)
@@ -80,19 +81,22 @@ def tweet_news(api):
                 continue
             keywords.append(list(line[0:-1].split(","))) 
 
-    #ニュースメディアリストから最新50件を取得。
-    for tweet in tweepy.Cursor(api.list_timeline,"CountryError404","Media",tweet_mode="extended").items(50):
+    #ニュースメディアリストから最新900件を取得。
+    for tweet in tweepy.Cursor(api.list_timeline,"CountryError404",
+    "Media",tweet_mode="extended").items(900):
         text = get_display_text(tweet)
         for wset in keywords:
             if wset[0] in text:
                 if len(wset) > 0:
                     for i in range(1,len(wset)-1):
                         if wset[i] in text:
-                            # ReTweet
+                            if not tweet.retweeted:
+                                api.retweet(tweet.id)
                             print(text)
                             break
                 else:
-                    #ReTweet
+                    if not tweet.retweeted:
+                        api.retweet(tweet.id)
                     print(text)
         pass
         
@@ -157,15 +161,4 @@ def follow_and_remove(api):
 
 
 if __name__=="__main__":
-    
-    #OAuth
-    api_key = os.environ.get("API_KEY")
-    api_secret = os.environ.get("API_SECRET")
-    access_token = os.environ.get("ACCESS_TOKEN")
-    access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
-    auth = tweepy.OAuthHandler(api_key,api_secret)
-    auth.set_access_token(access_token,access_token_secret)
-    api = tweepy.API(auth)
-    tweet_news(api)
-
-    #main()
+    main()
