@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 import pickle
-import boto3
+#import boto3
 
 def main():
 
@@ -71,6 +71,35 @@ def tweet_articles(api,list_path):
                 c.write("{0}".format(count+1))
     return
 
+def tweet_news(api):
+    #単語取得
+    keywords = []
+    with Path("engine/keywords.txt").open("r",encoding="utf-8") as f:
+        for line in f.readlines():
+            if line[0:1]=="#" or line[0:1]=="\n":
+                continue
+            keywords.append(list(line[0:-1].split(","))) 
+
+    #ニュースメディアリストから最新50件を取得。
+    for tweet in tweepy.Cursor(api.list_timeline,"CountryError404","Media",tweet_mode="extended").items(50):
+        text = get_display_text(tweet)
+        for wset in keywords:
+            if wset[0] in text:
+                if len(wset) > 0:
+                    for i in range(1,len(wset)-1):
+                        if wset[i] in text:
+                            # ReTweet
+                            print(text)
+                            break
+                else:
+                    #ReTweet
+                    print(text)
+        pass
+        
+def get_display_text(tweet):
+    s , e = tuple(tweet.display_text_range)
+    return tweet.full_text[s:e]
+
 def follow_and_remove(api):
     #24時間で1000回まで。1時間100回。
     users = []
@@ -128,4 +157,15 @@ def follow_and_remove(api):
 
 
 if __name__=="__main__":
-    main()
+    
+    #OAuth
+    api_key = os.environ.get("API_KEY")
+    api_secret = os.environ.get("API_SECRET")
+    access_token = os.environ.get("ACCESS_TOKEN")
+    access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
+    auth = tweepy.OAuthHandler(api_key,api_secret)
+    auth.set_access_token(access_token,access_token_secret)
+    api = tweepy.API(auth)
+    tweet_news(api)
+
+    #main()
