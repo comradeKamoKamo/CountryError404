@@ -87,7 +87,7 @@ def tweet_news(api):
         text = get_display_text(tweet)
         for wset in keywords:
             if wset[0] in text:
-                if len(wset) > 0:
+                if len(wset) > 1:
                     for i in range(1,len(wset)-1):
                         if wset[i] in text:
                             if not tweet.retweeted:
@@ -98,7 +98,6 @@ def tweet_news(api):
                     if not tweet.retweeted:
                         api.retweet(tweet.id)
                     print(text)
-        pass
         
 def get_display_text(tweet):
     s , e = tuple(tweet.display_text_range)
