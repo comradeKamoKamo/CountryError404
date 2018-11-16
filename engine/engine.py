@@ -85,6 +85,7 @@ def tweet_news(api):
     for tweet in tweepy.Cursor(api.list_timeline,"CountryError404",
     "Media",tweet_mode="extended").items(900):
         text = get_display_text(tweet)
+        retweeted = False
         for wset in keywords:
             if wset[0] in text:
                 if len(wset) > 1:
@@ -92,12 +93,15 @@ def tweet_news(api):
                         if wset[i] in text:
                             if not tweet.retweeted:
                                 api.retweet(tweet.id)
-                            print(text)
+                                retweeted = True
+                                print(text)
                             break
                 else:
                     if not tweet.retweeted:
                         api.retweet(tweet.id)
-                    print(text)
+                        retweeted = True
+                        print(text)
+            if retweeted: break
         
 def get_display_text(tweet):
     s , e = tuple(tweet.display_text_range)
