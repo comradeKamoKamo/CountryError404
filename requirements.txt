@@ -1,3 +1,2 @@
 tweepy==3.6.0
 boto3==1.9.37
-mecab-python3==0.996.1
