@@ -145,8 +145,12 @@ def follow_and_remove(api):
             if not user_id in followers_id:
                 protected_users.remove(user_id)
             #フォローしている
-            if api.get_user(user_id).following:
-                protected_users.remove(user_id)
+            try:
+                if api.get_user(user_id).following:
+                    protected_users.remove(user_id)
+            except tweepy.TweepError:
+                # tweepy.error.TweepError: [{'code': 50, 'message': 'User not found.'}]
+                    protected_users.remove(user_id)
         #鍵垢リスト保存
         with Path("tmp/protected_users.pickle").open("wb") as f:
             pickle.dump(protected_users,f)
