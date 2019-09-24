@@ -14,7 +14,7 @@ def main():
 
     #S3 Load
     Path("tmp").mkdir(exist_ok=True)
-    s3 , bucket =  save_from_s3(s3_name="countryerror404")
+    s3 , bucket =  save_from_s3(s3_name = os.environ.get("S3_BUCKET"))
 
     #OAuth
     api_key = os.environ.get("API_KEY")
@@ -69,7 +69,7 @@ def tweet_articles(api,list_path):
             #ツイートの重複
             count = count + 1
     with Path("tmp/count.dat").open("w",encoding="utf-8") as c:
-                c.write("{0}".format(count+1))
+        c.write("{0}".format(count+1))
     return
 
 def tweet_news(api):
