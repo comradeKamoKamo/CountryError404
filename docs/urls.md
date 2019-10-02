@@ -89,7 +89,7 @@
 |80_番外編_北センチネル島|http://www.and.nic.in/|インドのアダマン・ニコバル諸島地方政府。|
 |81_用語編_未接触部族|||
   
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
     const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     $('body').html($('body').html().replace(exp,"<a href='$1'>$1</a>"));
