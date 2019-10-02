@@ -10,7 +10,7 @@
 |1_グローバル・ステート・オブ・ウェーブランド|http://www.waveland.org/||
 |2_クリスチャニア|https://www.christiania.org/||
 |3_ロシア帝国|||
-|3_1_ロマノフ帝国|https://romanovempire.com/||
+|3a_ロマノフ帝国|https://romanovempire.com/||
 |4_アトス自治修道士共和国|||
 |5_リベルランド自由共和国|https://liberland.org/||
 |6_スルプスカ共和国|http://www.vladars.net/||
