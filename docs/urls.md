@@ -94,3 +94,8 @@
     const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     $('#main_content').html($('#main_content').html().replace(exp,"<a href='$1'>$1</a>"));
 </script>
+<style>
+.inner {
+    max-width: 80%;
+}
+</style>
