@@ -5,9 +5,9 @@
  
 |記事名|公式サイト|補足|
 |:-:|:-:|:-:|
-|0_イロコイ連邦|https://www.haudenosauneeconfederacy.com||
+|0_イロコイ連邦|https://www.haudenosauneeconfederacy.com/||
 |1_グローバル・ステート・オブ・ウェーブランド|http://www.waveland.org/||
-|2_クリスチャニア|https://www.christiania.org||
+|2_クリスチャニア|https://www.christiania.org/||
 |3_ロシア帝国|||
 |3_1_ロマノフ帝国|https://romanovempire.com/||
 |4_アトス自治修道士共和国|||
@@ -88,3 +88,9 @@
 |79_番外編_CONIFA|http://www.conifa.org/||
 |80_番外編_北センチネル島|http://www.and.nic.in/|インドのアダマン・ニコバル諸島地方政府。|
 |81_用語編_未接触部族|||
+  
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    $('body').html($('body').html().replace(exp,"<a href='$1'>$1</a>"));
+</script>
