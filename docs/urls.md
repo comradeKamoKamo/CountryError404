@@ -1,3 +1,4 @@
+<div id="paga">
 # 地図に載らない国の公式サイト一覧
  - 独自調査に基づきます。正しいかどうかわかりません。
  - 一般的にテロ組織とされる組織のサイトも多く含まれます。著者はこれらを支援するわけではありません。
@@ -88,9 +89,11 @@
 |79_番外編_CONIFA|http://www.conifa.org/||
 |80_番外編_北センチネル島|http://www.and.nic.in/|インドのアダマン・ニコバル諸島地方政府。|
 |81_用語編_未接触部族|||
-  
+
+</div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
     const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    $('body').html($('body').html().replace(exp,"<a href='$1'>$1</a>"));
+    $('#page').html($('#page').html().replace(exp,"<a href='$1'>$1</a>"));
 </script>
