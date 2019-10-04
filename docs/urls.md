@@ -30,7 +30,7 @@
 |20_イスラム国|||
 |21_アルツァフ共和国|http://president.nkr.am/|外務省→http://nkr.am/|
 |22_ルガンスク人民共和国|https://sovminlnr.ru/||
-|23_ドネツク人民共和国|https://dnr-online.ru/||
+|23_ドネツク人民共和国|https://dnr-online.ru/<br>https://dnronline.su/（旧URL？）|リンク先はどちらも同じサーバっぽい|
 |24_沿ドニエストル・モルドバ共和国|http://president.gospmr.org/||
 |25_ガガウズ=イェリ自治区|http://www.gagauzia.md/||
 |26_番外編_ハリコフ人民共和国|||
