@@ -60,14 +60,20 @@ def tweet_articles(api,list_path):
         lines = f.readlines()
         if len(lines) <= count:
             count = 0
-        text = lines[count][0:-1]
+        text = lines[count].replace("\n","")
+        if len(text) == 0:
+            print("Error: id_list has an empty line.")
     # Tweet    
     try:
         api.update_status(text)
+        print("Tweet:" + text)
     except tweepy.TweepError as e:
         if e.api_code==187:
             #ツイートの重複
+            print("Error: 187 - Status is a duplicate. count is " + count)
             count = count + 1
+        else:
+            print("Error: " + e.api_code)
     with Path("tmp/count.dat").open("w",encoding="utf-8") as c:
         c.write("{0}".format(count+1))
     return
