@@ -2,6 +2,7 @@
 OAuth.json
 heroku_OAuth.bat
 
+*.xlsx
 .vscode
 
 #for debug
