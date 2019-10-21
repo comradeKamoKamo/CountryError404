@@ -43,6 +43,7 @@
 |33_番外編_カビンダ共和国（亡命政府）|http://www.cabinda.org/|カビンダ解放戦線(FLEC)|
 |34_番外編_イテンゲ自由国_カプリビ回廊国|http://www.caprivifreedom.com/|統一民主党(UDP)のサイト（カプリビ解放軍の政治部門、ナミビアでは違法化）|
 |35_番外編_アンバゾニア共和国|https://www.ambazoniagov.org/|仮想通貨も有名→https://ambacoin.io/|
+|35a_番外編_カザマンス民主勢力運動|https://www.journaldupays.com/|MFDC系のニュースサイト???|
 |36_番外編_アビエイ（地区_群）|||
 |37_朝鮮民主主義人民共和国|http://www.naenara.com.kp/|ポータルサイト「我が国」日本語版あり|
 |38_中華民国|https://www.president.gov.tw/||
