@@ -37,5 +37,5 @@
  - [モーメント](https://twitter.com/CountryError404/moments)にはエイプリルフールネタがおいてあります。
  - 登録されている記事は[ここ](https://github.com/comradeKamoKamo/CountryError404/tree/master/tweets)でバックアップが見れます。
 
- ## 中の人
+## 中の人
  [かもかも](https://comradekamokamo.github.io/)と申します。botに関する連絡事項がありましたら中の人にお申し付けください。
