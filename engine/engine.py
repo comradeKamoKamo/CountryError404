@@ -75,10 +75,10 @@ def tweet_articles(api, list_path):
     except tweepy.TweepError as e:
         if e.api_code == 187:
             # ツイートの重複
-            print("Error: 187 - Status is a duplicate. count is " + count)
+            print("Error: 187 - Status is a duplicate. count is " + str(count))
             count = count + 1
         else:
-            print("Error: " + e.api_code)
+            print("Error: " + str(e.api_code))
     with Path("tmp/count.dat").open("w", encoding="utf-8") as c:
         c.write("{0}".format(count+1))
     return
