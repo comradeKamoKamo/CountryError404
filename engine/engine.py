@@ -178,7 +178,10 @@ def follow_and_remove(api):
     for i in range(100):
         if len(removers_id) <= i:
             break
-        api.destroy_friendship(removers_id.pop())
+        try:
+            api.destroy_friendship(removers_id.pop())
+        except tweepy.TweepError:
+            pass
 
 
 if __name__ == "__main__":
